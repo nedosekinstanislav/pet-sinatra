@@ -15,7 +15,7 @@
 			<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 				<!-- Brand -->
 				<div class="container">
-					<a class="navbar-brand" href="#">Navbar</a>
+					<a class="navbar-brand" href="/">Barber Shop</a>
 
 					<!-- Toggler/collapsibe Button -->
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -29,10 +29,10 @@
 								<a class="nav-link" href="/about">About</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">Link</a>
+								<a class="nav-link" href="/visit">Visit</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">Link</a>
+								<a class="nav-link" href="/contacts">Contacts</a>
 							</li>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -50,12 +50,10 @@
 			</nav>
 
 			<div class="container">
-				<div class="row">
-					<%if @error then %>
-							<div class="alert alert-error"><%=@error%></div>
-					<% end %>
-					<%= yield %>
-				</div>
+				<%if @error then %>
+						<div class="alert alert-error"><%=@error%></div>
+				<% end %>
+				<%= yield %>
 			</div>
 			
 		</header>
