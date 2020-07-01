@@ -8,13 +8,13 @@ end
 
 helpers do
   def username
-    session[:identity] ? session[:identity] : 'Hello stranger'
+    session[:identity] ? session[:identity] : 'Профиль'
   end
 end
 
 before '/secure/*' do
   unless session[:identity]
-    session[:previous_url] = request.path
+     session[:previous_url] = request.path
     @error = 'Sorry, you need to be logged in to visit ' + request.path
     halt erb(:login_form)
   end
@@ -30,6 +30,35 @@ end
 
 get '/visit' do
   erb :visit
+end
+
+post '/visit' do
+
+  @username = params[:username]
+  @phone = params[:phone]
+  @datetime = params[:datetime]
+  @person = params[:person]
+  erb "Ждем вас в #{@datetime}"
+
+  hh = {
+    :username => 'Введите имя', 
+    :phone => 'Введите телефон', 
+    :datetime => 'Введите дату и время'
+  }
+
+  # hh.each do |key, value|
+  #   if params[key] == ''
+  #     @error = hh[key]
+  #     return  erb :visit
+  #   end
+  # end
+
+  @error = hh.select {|key,_| params[key] == ""}.values.join(", ")
+
+  if @error != ''
+    return erb :visit
+  end
+
 end
 
 get '/contacts' do

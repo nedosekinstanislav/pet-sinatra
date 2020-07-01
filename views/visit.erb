@@ -1,20 +1,44 @@
-<h1>Visit</h1>
+<h1>Записаться</h1>
 
 <div class="row justify-content-center">
-    <form action="/visit" method="POST">
+    <form action="/visit" method="POST" role="form">
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <label>Ваше имя</label>
+            <input name="username" type="text" class="form-control" placeholder="Введите имя" value="<%=@username%>">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label>Ваш телефон</label>
+            <input name="phone" type="text" class="form-control" placeholder="Введите телефон" value="<%=@phone%>">
         </div>
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        <div class="form-group">
+            <label>Время посещения</label>
+            <input name="datetime" type="text" class="form-control" placeholder="Введите дату и время" value="<%=@datetime%>">
         </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group" name="color">
+            <label>Цвет для окрашивания</label>
+                <select name="colorpicker">
+                    <option value="#7bd148">Green</option>
+                    <option value="#5484ed">Bold blue</option>
+                    <option value="#a4bdfc">Blue</option>
+                    <option value="#46d6db">Turquoise</option>
+                    <option value="#7ae7bf">Light green</option>
+                    <option value="#51b749">Bold green</option>
+                    <option value="#fbd75b">Yellow</option>
+                    <option value="#ffb878">Orange</option>
+                    <option value="#ff887c">Red</option>
+                    <option value="#dc2127">Bold red</option>
+                    <option value="#dbadff">Purple</option>
+                    <option value="#e1e1e1">Gray</option>
+                </select>
+        </div>
+        <div class="form-group">
+            <label>Ващ парикмахер</label>
+            <select name="person" class="form-control">
+                <option>Walter White</option>
+                <option>Jesse Pinkman</option>
+                <option>Gus Fring</option>
+            </select>
+        </div>
+            <button type="submit" class="btn btn-primary">Записаться</button>
     </form>
 </div>
