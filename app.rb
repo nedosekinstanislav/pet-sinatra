@@ -3,20 +3,27 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+# Экземпляр объекта нужно обязательно вернуть так как в configure код будет выполнен 1 раз при инициализации (Когда изменили код)
+def get_db
+  db = SQLite3::Database.new 'barberschop.db'
+  db.results_as_hash = true
+  return db
+end
+
 configure do
   enable :sessions
   
   # ОТКРЫТЬ ЕСЛИ НЕТ ФАЙЛА С БД
-  
-  # db = get_db
-  # db.execute 'CREATE TABLE IF NOT EXISTS 
-  #             "Users"(
-  #             "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
-  #             "username" TEXT, 
-  #             "phone" TEXT, 
-  #             "datestamp" TEXT, 
-  #             "barber" TEXT, 
-  #             "color" TEXT)'
+
+  db = get_db
+  db.execute 'CREATE TABLE IF NOT EXISTS 
+              "Users"(
+              "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
+              "username" TEXT, 
+              "phone" TEXT, 
+              "datestamp" TEXT, 
+              "barber" TEXT, 
+              "color" TEXT)'
 end
 
 helpers do
@@ -113,11 +120,4 @@ end
 
 get '/showusers' do
   erb :showusers
-end
-
-# Экземпляр объекта нужно обязательно вернуть так как в configure код будет выполнен 1 раз при инициализации (Когда изменили код)
-def get_db
-  db = SQLite3::Database.new 'barberschop.db'
-  db.results_as_hash = true
-  return db
 end
