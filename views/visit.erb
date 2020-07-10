@@ -12,19 +12,19 @@
         </div>
         <div class="form-group">
             <label>Время посещения</label>
-            <input name="datetime" type="text" class="form-control" placeholder="Введите дату и время" value="<%=@datetime%>">
+            <input id="datetimepicker" name="datetime" type="text" class="form-control" placeholder="Введите дату и время" value="<%=@datetime%>">
         </div>
         <div class="form-group">
             <label>Ващ парикмахер</label>
-            <select name="person" class="form-control">
+            <select name="barber" class="form-control">
                 <option <%= @barber == 'Walter White' ? 'selected' : '' %>>Walter White</option>
                 <option <%= @barber == 'Jesse Pinkman' ? 'selected' : '' %>>Jesse Pinkman</option>
                 <option <%= @barber == 'Gus Fring' ? 'selected' : '' %>>Gus Fring</option>
             </select>
         </div>
-        <div class="form-group" name="color">
+        <div class="form-group">
             <label>Цвет для окрашивания</label>
-                <select name="colorpicker">
+                <select class="colorpicker" name="color">
                     <option value="#7bd148">Green</option>
                     <option value="#5484ed">Bold blue</option>
                     <option value="#a4bdfc">Blue</option>

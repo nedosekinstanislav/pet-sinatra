@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    $('select[name="colorpicker"]').simplecolorpicker();
+    $('.colorpicker').simplecolorpicker();
+    $('#datetimepicker').datetimepicker();
 });
-
-console.log('test')

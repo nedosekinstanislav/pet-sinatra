@@ -5,15 +5,18 @@ require 'sqlite3'
 
 configure do
   enable :sessions
-  @db = SQLite3::Database.new 'barberschop.db'
-  @db.execute 'CREATE TABLE IF NOT EXISTS 
-              "Users"(
-              "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
-              "username" TEXT, 
-              "phone" TEXT, 
-              "datestamp" TEXT, 
-              "barber" TEXT, 
-              "color" TEXT)'
+  
+  # ОТКРЫТЬ ЕСЛИ НЕТ ФАЙЛА С БД
+  
+  # db = get_db
+  # db.execute 'CREATE TABLE IF NOT EXISTS 
+  #             "Users"(
+  #             "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
+  #             "username" TEXT, 
+  #             "phone" TEXT, 
+  #             "datestamp" TEXT, 
+  #             "barber" TEXT, 
+  #             "color" TEXT)'
 end
 
 helpers do
@@ -47,8 +50,8 @@ post '/visit' do
   @username = params[:username]
   @phone = params[:phone]
   @datetime = params[:datetime]
-  @person = params[:person]
-  erb "Ждем вас в #{@datetime}"
+  @barber = params[:barber]
+  @color = params[:color]
 
   hh = {
     :username => 'Введите имя', 
@@ -70,6 +73,18 @@ post '/visit' do
   if @error != ''
     return erb :visit
   end
+
+  db = get_db
+  db.execute 'insert into
+              Users(
+                username,
+                phone,
+                datestamp,
+                barber,
+                color)
+              values(?,?,?,?,?)', [@username, @phone, @datetime, @barber, @color]
+
+  erb "Ok, usernameis #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 
 end
 
@@ -94,4 +109,15 @@ end
 
 get '/secure/place' do
   erb 'This is a secret place that only <%=session[:identity]%> has access to!'
+end
+
+get '/showusers' do
+  erb :showusers
+end
+
+# Экземпляр объекта нужно обязательно вернуть так как в configure код будет выполнен 1 раз при инициализации (Когда изменили код)
+def get_db
+  db = SQLite3::Database.new 'barberschop.db'
+  db.results_as_hash = true
+  return db
 end
