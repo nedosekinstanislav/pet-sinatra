@@ -10,6 +10,23 @@ def get_db
   return db
 end
 
+before do
+  db = get_db
+  @barbers = db.execute 'select * from Barbers'
+end
+
+def is_barber_exists? db, name
+  db.execute('select * from Barbers where name=?', [name]).length > 0 
+end
+
+def seed_db db, barbers
+  barbers.each do |item|
+    if !is_barber_exists? db, item
+      db.execute 'insert into Barbers (name) values (?)', [item]
+    end
+  end
+end
+
 configure do
   enable :sessions
 
@@ -22,6 +39,13 @@ configure do
               "datestamp" TEXT, 
               "barber" TEXT, 
               "color" TEXT)'
+
+  db.execute 'CREATE TABLE IF NOT EXISTS 
+              "Barbers"(
+              "id" INTEGER PRIMARY KEY AUTOINCREMENT, 
+              "name" TEXT)'
+
+  seed_db db, ['Валя Дурдомова', 'Олеська Куралеська', 'Петровна Кудряхова', 'Валя Челканова']
 end
 
 helpers do
@@ -64,7 +88,7 @@ post '/visit' do
     :datetime => 'Введите дату и время'
   }
 
-  # Вывод ошибки по каждому input за раз
+  # Вывод ошибки по каждому input при submit
   
   # hh.each do |key, value|
   #   if params[key] == ''
@@ -89,8 +113,7 @@ post '/visit' do
                 color)
               values(?,?,?,?,?)', [@username, @phone, @datetime, @barber, @color]
 
-  erb "Ok, usernameis #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
-
+  erb "Ok, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 end
 
 get '/contacts' do
