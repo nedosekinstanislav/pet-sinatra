@@ -12,8 +12,6 @@ end
 
 configure do
   enable :sessions
-  
-  # ОТКРЫТЬ ЕСЛИ НЕТ ФАЙЛА С БД
 
   db = get_db
   db.execute 'CREATE TABLE IF NOT EXISTS 
@@ -119,5 +117,7 @@ get '/secure/place' do
 end
 
 get '/showusers' do
+  db = get_db
+  @results = db.execute 'select * from Users order by id desc'
   erb :showusers
 end
