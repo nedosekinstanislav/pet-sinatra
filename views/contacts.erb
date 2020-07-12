@@ -1,1 +1,17 @@
 <h1>Контакты</h1>
+<div class="row">
+    <div class="col-6">
+    <form action="/contacts" method="POST">
+    <h4>Заполните поля формы</h4>
+        <div class="form-group">
+            <label>Ваше имя</label>
+            <input name="usernameForm" type="text" class="form-control" value="<%= @usernameForm %>">
+        </div>
+        <div class="form-group">
+            <label>Телефон</label>
+            <input name="userphoneForm" type="text" class="form-control" value="<%= @userphoneForm %>">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+    </div>
+</div>

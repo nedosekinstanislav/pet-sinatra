@@ -44,28 +44,20 @@
 							<li class="nav-item">
 								<a class="nav-link" href="/contacts">Контакты</a>
 							</li>
-							<!--<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<%=username%>
-								</a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="/login/form">Авторизоваться</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="/logout">Выход</a>
-								</div>
-							</li>-->
+							<li class="nav-item">
+								<a class="nav-link" href="/showusers">Список записавшихся</a>
+							</li>
 						</ul>
 					</div>
 				</div>
 			</nav>
 
 			<div class="container">
-				<%if @error then %>
+				<%if @error && @error.size > 0 then %>
 						<div class="alert alert-danger"><%=@error%></div>
 				<% end %>
 				<%= yield %>
 			</div>
-			
 		</header>
 	</div>
   </body>

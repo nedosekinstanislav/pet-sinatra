@@ -2,6 +2,29 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
+require 'pony'
+
+post '/contacts' do
+  @usernameForm = params[:usernameForm]
+  @userphoneForm = params[:userphoneForm]
+
+  Pony.mail({
+    :to => 'stasnedosekin59@gmail.com',
+    :subject => "Обратная связь со страницы Контакты",
+    :body => "Имя: #{@usernameForm}""\n\r""Телефон: #{@userphoneForm}",
+    :via => :smtp,
+    :via_options => {
+      :address              => 'smtp.gmail.com',
+      :port                 => '587',
+      :enable_starttls_auto => true,
+      :user_name            => 'stasnedosekin59@gmail.com',
+      :password             => 'rrvlsghzyazyfnet',
+      :authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
+      :domain               => "localhost.localdomain" # the HELO domain provided by the client to the server
+    }
+  })
+  erb "<h2>Спасибо, мы вам перезвоним</h2> <a href="/">На главную</a>"
+end
 
 # Экземпляр объекта нужно обязательно вернуть так как в configure код будет выполнен 1 раз при инициализации (Когда изменили код)
 def get_db
@@ -46,24 +69,11 @@ configure do
               "name" TEXT)'
 
   seed_db db, ['Валя Дурдомова', 'Олеська Куралеська', 'Петровна Кудряхова', 'Валя Челканова']
-end
 
-helpers do
-  def username
-    session[:identity] ? session[:identity] : 'Профиль'
-  end
-end
-
-before '/secure/*' do
-  unless session[:identity]
-     session[:previous_url] = request.path
-    @error = 'Sorry, you need to be logged in to visit ' + request.path
-    halt erb(:login_form)
-  end
 end
 
 get '/' do
-  erb 'Can you handle a <a href="/secure/place">secret</a>?'
+  erb 'Добро пожаловать на наш сайт'
 end
 
 get '/about' do
@@ -113,30 +123,11 @@ post '/visit' do
                 color)
               values(?,?,?,?,?)', [@username, @phone, @datetime, @barber, @color]
 
-  erb "Ok, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
+  erb "<h2>Спасибо, мы ждем вас!</h2>"
 end
 
 get '/contacts' do
   erb :contacts
-end
-
-get '/login/form' do
-  erb :login_form
-end
-
-post '/login/attempt' do
-  session[:identity] = params['username']
-  where_user_came_from = session[:previous_url] || '/'
-  redirect to where_user_came_from
-end
-
-get '/logout' do
-  session.delete(:identity)
-  erb "<div class='alert alert-message'>Logged out</div>"
-end
-
-get '/secure/place' do
-  erb 'This is a secret place that only <%=session[:identity]%> has access to!'
 end
 
 get '/showusers' do
