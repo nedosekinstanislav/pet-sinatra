@@ -23,7 +23,7 @@ post '/contacts' do
       :domain               => "localhost.localdomain" # the HELO domain provided by the client to the server
     }
   })
-  erb "<h2>Спасибо, мы вам перезвоним</h2> <a href="/">На главную</a>"
+  erb "<h2>Спасибо, мы вам перезвоним</h2>"
 end
 
 # Экземпляр объекта нужно обязательно вернуть так как в configure код будет выполнен 1 раз при инициализации (Когда изменили код)
